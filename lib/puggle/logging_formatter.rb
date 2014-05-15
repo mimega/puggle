@@ -1,3 +1,5 @@
+require 'colorize'
+
 module Puggle
   class LoggingFormatter < ActiveSupport::Logger::Formatter
     include ActiveSupport::TaggedLogging::Formatter

@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 module Puggle
   describe Config do
     describe ".load_configuration!" do

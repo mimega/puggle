@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe Puggle do
   describe ".config_files" do
     it "returns the config files" do
