@@ -4,7 +4,9 @@ module Puggle
   module Config
     def self.load_configuration! (env)
       config = Puggle.config_files.reduce({}) do |res, config_file|
-        res.merge(YAML.load_file(config_file).fetch(env))
+        file = YAML.load_file(config_file)
+        res.deep_merge(file.fetch("common", {})).
+          deep_merge(file.fetch(env))
       end
 
       set!(config)

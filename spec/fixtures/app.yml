@@ -1,5 +1,14 @@
+common:
+  i_am_from_shared: a shared value
+
+  nested:
+    value_a: "hello"
+
 production:
   i_must_be_here: this is the value in production
+
+  nested:
+    value_b: "sup!"
 
 test:
   i_must_be_here: this is the value in test
