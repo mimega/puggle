@@ -1,5 +1,6 @@
 require "puggle/version"
 require "puggle/config"
+require "puggle/scrub_inputs"
 require "active_support"
 require "puggle/logging_formatter"
 
