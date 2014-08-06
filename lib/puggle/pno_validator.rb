@@ -2,6 +2,9 @@ require 'active_model'
 require 'luhn'
 
 class Puggle::PnoValidator < ActiveModel::Validator
+  VALID_SWEDISH_PNO = /\A\d{8}-\d{4}\Z/
+  VALID_FINNISH_PNO = /\A\d{6}[+\-A]\d{3}[0-9A-Y]\Z/
+
   def validate (record)
     return nil if record.errors[:country_code].present?
     return nil if record.errors[:pno].present?
@@ -13,11 +16,10 @@ class Puggle::PnoValidator < ActiveModel::Validator
   end
 
   class << self
-
     def valid_format? (country_code, pno)
       case country_code
-      when 'SE' then pno =~ /\A\d{8}-\d{4}\Z/
-      when 'FI' then pno =~ /\A\d{6}[+\-A]\d{3}[0-9A-Y]\Z/
+      when 'SE' then pno =~ VALID_SWEDISH_PNO
+      when 'FI' then pno =~ VALID_FINNISH_PNO
       else raise "Could not validate pno format for country #{country_code}"
       end && valid_date?(country_code, pno)
     end
