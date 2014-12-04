@@ -18,8 +18,8 @@ class Puggle::PnoValidator < ActiveModel::Validator
   class << self
     def valid_format? (country_code, pno)
       case country_code
-      when 'SE' then pno =~ VALID_SWEDISH_PNO
-      when 'FI' then pno =~ VALID_FINNISH_PNO
+      when 'SE' then pno.match(VALID_SWEDISH_PNO).present?
+      when 'FI' then pno.match(VALID_FINNISH_PNO).present?
       else raise "Could not validate pno format for country #{country_code}"
       end && valid_date?(country_code, pno)
     end
