@@ -29,6 +29,18 @@ module Puggle
       end
     end
 
+    describe ".resonable_age?" do
+      it "checks that the age is withing reasonable boundries" do
+        today = Date.parse("2014-01-01")
+        ["19491019-0000", "19681130-0000"].each do |pno|
+          expect(PnoValidator).to be_reasonable_age("SE", pno, today: today)
+        end
+        ["18001016-0000", "20781021-0000"].each do |pno|
+          expect(PnoValidator).to_not be_reasonable_age("SE", pno, today: today)
+        end
+      end
+    end
+
     describe ".valid_finnish_pno?" do
       it "validates finnish checksum" do
         ["180265-019L",

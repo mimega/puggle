@@ -12,6 +12,8 @@ class Puggle::PnoValidator < ActiveModel::Validator
       record.errors.add(:pno, :invalid)
     elsif ! self.class.valid_checksum?(record.country_code, record.pno)
       record.errors.add(:pno, :invalid)
+    elsif ! self.class.reasonable_age?(record.country_code, record.pno)
+      record.errors.add(:pno, :invalid)
     end
   end
 
@@ -32,6 +34,11 @@ class Puggle::PnoValidator < ActiveModel::Validator
       else
         false
       end
+    end
+
+    def reasonable_age? (country_code, pno, today: Date.today)
+      date = Date.parse(extract_date(country_code, pno))
+      date > today.prev_year(150) and date < today
     end
 
     def valid_checksum? (country_code, pno)
