@@ -1,6 +1,7 @@
 require "puggle/version"
 require "puggle/config"
 require "puggle/pno_validator"
+require "puggle/phone_validator"
 require "puggle/scrub_inputs"
 require "active_support"
 require "puggle/logging_formatter"
