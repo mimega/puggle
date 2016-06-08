@@ -1,8 +1,10 @@
 require 'active_model'
+require 'phony'
 
 class Puggle::PhoneValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     unless record.respond_to?(:country_code)
+      # TODO: raise or error?
       raise "Wrong use: Phone validator expects 'country_code' method"
     end
     unless record.country_code.present?
@@ -28,14 +30,15 @@ class Puggle::PhoneValidator < ActiveModel::EachValidator
       'SE' => '46',
       'FI' => '358',
     }.fetch(country_code) {
+      # TODO: raise or error?
       raise "Unknown country code '#{country_code}'"
     }
-    unless Phony.plausible?(phone, cc: phone_prefix)
-      errors << "is not in international format"
+    unless ::Phony.plausible?(phone, cc: phone_prefix)
+      errors << "is an invalid number"
       return errors
     end
 
-    errors << "is not normalized" unless Phony.normalize(phone) == phone
+    errors << "is not normalized" unless ::Phony.normalize(phone) == phone
 
     unless phone.start_with?(phone_prefix)
       errors << "does not start with country phone prefix"
@@ -43,3 +46,7 @@ class Puggle::PhoneValidator < ActiveModel::EachValidator
     errors
   end
 end
+
+
+# old checkout tests?
+# these error messages might be returned to the user/merchant?
