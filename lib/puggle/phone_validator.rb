@@ -13,31 +13,34 @@ class Puggle::PhoneValidator < ActiveModel::EachValidator
       )
       return
     end
-    errors = self.class.validate_phone(value, record.country_code)
-    errors.each { |error|
+    if error = self.class.validate_phone(value, record.country_code)
       record.errors.add(attribute, error)
-    }
+    end
   end
 
   def self.validate_phone(phone, country_code)
-    errors = []
-    phone_prefix = {
-      'SE' => '46',
-      'FI' => '358',
-    }.fetch(country_code) {
-      errors << "country code '#{country_code}' is not supported"
-      return errors
-    }
-    unless ::Phony.plausible?(phone, cc: phone_prefix)
-      errors << "is an invalid number"
-      return errors
+    if phone.nil?
+      return "must be present"
     end
-
-    errors << "is not normalized" unless ::Phony.normalize(phone) == phone
-
-    unless phone.start_with?(phone_prefix)
-      errors << "does not start with country phone prefix"
+    case country_code
+    when 'SE'
+      valid_prefixes = ["4670", "4672", "4673", "4676", "4679"]
+      case
+      when !valid_prefixes.include?(phone[0..3])
+        return "prefix is invalid"
+      when phone.length != 11
+        return "is not a valid mobile length"
+      end
+    when 'FI'
+      valid_prefixes = ["3584", "3585"]
+      case
+      when !valid_prefixes.include?(phone[0..3])
+        return "prefix is invalid"
+      when phone.length > 15
+        return "is not a valid mobile length"
+      end
+    else
+      return "country code '#{country_code}' is not supported"
     end
-    errors
   end
 end
