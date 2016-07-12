@@ -55,11 +55,10 @@ describe Puggle::PhoneValidator do
   end
 
   context "with a nil number" do
-    let(:country_code) { "SE" }
     let(:phone) { nil }
 
-    it "requires it to be present" do
-      expect(errors[:phone]).to eq(["must be present"])
+    it "skipts validation" do
+      expect(errors[:phone]).to be_empty
     end
   end
 
