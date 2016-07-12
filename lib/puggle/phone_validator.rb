@@ -5,7 +5,7 @@ class Puggle::PhoneValidator < ActiveModel::EachValidator
     unless record.respond_to?(:country_code)
       raise "Wrong use: Phone validator expects 'country_code' method"
     end
-    return unless record.phone.present?
+    return unless value.present?
     unless record.country_code.present?
       record.errors.add(
         :country_code,
