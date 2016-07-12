@@ -57,7 +57,7 @@ describe Puggle::PhoneValidator do
   context "with a nil number" do
     let(:phone) { nil }
 
-    it "skipts validation" do
+    it "skips validation" do
       expect(errors[:phone]).to be_empty
     end
   end
