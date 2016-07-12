@@ -1,5 +1,4 @@
 require 'active_model'
-require 'phony'
 
 class Puggle::PhoneValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
