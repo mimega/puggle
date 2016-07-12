@@ -58,7 +58,7 @@ describe Puggle::PhoneValidator do
     let(:country_code) { "SE" }
     let(:phone) { nil }
 
-    it "a" do
+    it "requires it to be present" do
       expect(errors[:phone]).to eq(["must be present"])
     end
   end
