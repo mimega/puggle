@@ -18,6 +18,13 @@ class Puggle::PnoValidator < ActiveModel::Validator
   end
 
   class << self
+
+    def valid_pno? (country_code, pno)
+      valid_format? (country_code, pno) &&
+        valid_date? (country_code, pno) &&
+        valid_checksum(country_code, pno)
+    end
+
     def valid_format? (country_code, pno)
       case country_code
       when 'SE' then pno.match(VALID_SWEDISH_PNO).present?
