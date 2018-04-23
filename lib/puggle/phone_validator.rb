@@ -39,6 +39,14 @@ class Puggle::PhoneValidator < ActiveModel::EachValidator
       when phone.length > 15
         return "is not a valid mobile length"
       end
+    when 'DE'
+      valid_prefixes = ["4915", "4916", "4917"]
+      case
+      when !valid_prefixes.include?(phone[0..3])
+        return "prefix is invalid"
+      when phone.length > 13 || phone.length < 12
+        return "is not a valid mobile length"
+      end
     else
       return "country code '#{country_code}' is not supported"
     end

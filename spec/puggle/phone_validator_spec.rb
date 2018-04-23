@@ -78,6 +78,14 @@ describe Puggle::PhoneValidator do
     end
   end
 
+  context "with valid german number" do
+    let(:country_code) { "DE" }
+    let(:phone) { "4915012345678" }
+    it "returns no errors" do
+      expect(errors).to be_empty
+    end
+  end
+
   context "with invalid phones" do
     [
       ["FI", "35840000000000000", "is not a valid mobile length"],
